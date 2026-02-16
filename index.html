@@ -87,6 +87,7 @@
             background-color: #000000;
             color: #ffffff;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
         }
 
         .bg-dots {
@@ -95,7 +96,7 @@
             -webkit-mask-image: linear-gradient(to bottom, transparent, 5%, black, 95%, transparent);
         }
 
-        ::-webkit-scrollbar { width: 6px; background: #000; }
+        ::-webkit-scrollbar { width: 4px; background: #000; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
 
         .product-card {
@@ -239,12 +240,13 @@
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 left-0 pt-6 px-6">
-        <div class="max-w-7xl mx-auto h-16 bg-black/80 backdrop-blur-xl border border-brand-border rounded-full flex items-center justify-between px-6 shadow-2xl">
+        <div class="max-w-7xl mx-auto h-16 bg-black/80 backdrop-blur-xl border border-brand-border rounded-full flex items-center justify-between px-6 shadow-2xl relative z-50">
             <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
                 <div class="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center font-bold text-lg">T</div>
                 <span class="font-bold tracking-tight text-sm">Teetotaler<span class="text-brand-secondary">.ai</span></span>
             </div>
             
+            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8 text-xs font-medium text-brand-secondary">
                 <button onclick="switchView('home')" class="nav-link hover:text-white transition-colors active" id="nav-home">Studio</button>
                 <button onclick="scrollToSection('ecosystem')" class="nav-link hover:text-white transition-colors">Ecosystem</button>
@@ -256,20 +258,33 @@
                 Hire Studio
             </a>
             
-            <button class="md:hidden text-white" onclick="toggleMenu()">
-                <i data-lucide="menu" class="w-5 h-5"></i>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-white p-2" onclick="toggleMenu()">
+                <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
     </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300">
+        <button onclick="toggleMenu()" class="absolute top-8 right-8 text-white p-2">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <button onclick="switchView('home'); toggleMenu()" class="text-3xl font-bold text-white hover:text-brand-accent transition-colors">Studio</button>
+        <button onclick="scrollToSection('ecosystem'); toggleMenu()" class="text-3xl font-bold text-white hover:text-brand-accent transition-colors">Ecosystem</button>
+        <button onclick="switchView('foundry'); toggleMenu()" class="text-3xl font-bold text-white hover:text-brand-accent transition-colors">Foundry</button>
+        <button onclick="switchView('blog'); toggleMenu()" class="text-3xl font-bold text-white hover:text-brand-accent transition-colors">Transmissions</button>
+        <a href="#contact" onclick="toggleMenu()" class="px-8 py-4 bg-white text-black font-bold rounded-full mt-4 text-lg">Hire Studio</a>
+    </div>
+
     <!-- VIEW 1: HOME LANDING PAGE -->
     <div id="view-home" class="view-section active-view">
         <!-- 1. Hero Section -->
-        <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden">
-            <div class="absolute top-[-20%] left-[20%] w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px] animate-blob pointer-events-none mix-blend-screen"></div>
-            <div class="absolute bottom-[-10%] right-[20%] w-[400px] h-[400px] bg-brand-cyan/10 rounded-full blur-[100px] animate-blob animation-delay-2000 pointer-events-none mix-blend-screen"></div>
+        <section class="relative min-h-screen flex items-center justify-center pt-32 pb-12 overflow-hidden px-4">
+            <div class="absolute top-[-20%] left-[20%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-accent/10 rounded-full blur-[80px] md:blur-[120px] animate-blob pointer-events-none mix-blend-screen"></div>
+            <div class="absolute bottom-[-10%] right-[20%] w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-brand-cyan/10 rounded-full blur-[80px] md:blur-[100px] animate-blob animation-delay-2000 pointer-events-none mix-blend-screen"></div>
 
-            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
                 <div class="inline-flex items-center gap-2 mb-8 px-3 py-1 bg-brand-surface border border-brand-border rounded-full animate-fade-in-up">
                     <span class="relative flex h-2 w-2">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
@@ -278,21 +293,21 @@
                     <span class="text-[10px] font-mono text-brand-secondary uppercase tracking-wider">Venture Studio v2.0 Online</span>
                 </div>
                 
-                <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.9]">
+                <h1 class="text-5xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.95] md:leading-[0.9]">
                     Pure Performance.<br>
                     <span class="animate-text-gradient">Real Influence.</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl text-brand-secondary max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                <p class="text-base md:text-xl text-brand-secondary max-w-2xl mx-auto mb-12 font-light leading-relaxed px-4">
                     We are not just an agency. We are a <span class="text-white font-medium">Venture Studio</span>. The AI & Organic Growth Engine behind Eject Solutions, PPSU, and Crossea Abroad.
                 </p>
 
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#ecosystem" class="group relative px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-all overflow-hidden">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 px-4">
+                    <a href="#ecosystem" class="group relative px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-all overflow-hidden w-full sm:w-auto">
                         <span class="relative z-10">Explore Ecosystem</span>
                         <div class="absolute inset-0 bg-gradient-to-r from-gray-100 via-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity animate-text-shimmer"></div>
                     </a>
-                    <button onclick="switchView('foundry')" class="px-8 py-4 bg-transparent border border-brand-border text-white rounded-full hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
+                    <button onclick="switchView('foundry')" class="px-8 py-4 bg-transparent border border-brand-border text-white rounded-full hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group w-full sm:w-auto">
                         <i data-lucide="bot" class="w-4 h-4 text-brand-secondary group-hover:text-brand-accent transition-colors"></i> View Agents
                     </button>
                 </div>
@@ -301,28 +316,28 @@
 
         <!-- Offer Strip -->
         <div class="w-full bg-brand-surface border-y border-brand-border py-4 overflow-hidden relative z-20">
-            <div class="flex animate-scroll whitespace-nowrap gap-16 text-[11px] font-mono font-bold tracking-[0.2em] text-brand-secondary">
-                <span class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> CROSSEA: FREE FLIGHT TICKETS FOR FIRST 50 ADMISSIONS</span>
-                <span class="flex items-center gap-2"><i data-lucide="briefcase" class="w-3 h-3 text-blue-400"></i> EJECT: INTERNSHIPS OPEN FOR 2024-25 BATCH</span>
-                <span class="flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3 h-3 text-emerald-400"></i> PPSU: ADMISSIONS OPEN - MERIT SCHOLARSHIPS AVAILABLE</span>
+            <div class="flex animate-scroll whitespace-nowrap gap-8 md:gap-16 text-[10px] md:text-[11px] font-mono font-bold tracking-[0.2em] text-brand-secondary">
+                <span class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> CROSSEA: FREE FLIGHT TICKETS</span>
+                <span class="flex items-center gap-2"><i data-lucide="briefcase" class="w-3 h-3 text-blue-400"></i> EJECT: INTERNSHIPS OPEN 24-25</span>
+                <span class="flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3 h-3 text-emerald-400"></i> PPSU: MERIT SCHOLARSHIPS</span>
                 <!-- Duplicate for infinite effect -->
-                <span class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> CROSSEA: FREE FLIGHT TICKETS FOR FIRST 50 ADMISSIONS</span>
-                <span class="flex items-center gap-2"><i data-lucide="briefcase" class="w-3 h-3 text-blue-400"></i> EJECT: INTERNSHIPS OPEN FOR 2024-25 BATCH</span>
-                <span class="flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3 h-3 text-emerald-400"></i> PPSU: ADMISSIONS OPEN - MERIT SCHOLARSHIPS AVAILABLE</span>
+                <span class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> CROSSEA: FREE FLIGHT TICKETS</span>
+                <span class="flex items-center gap-2"><i data-lucide="briefcase" class="w-3 h-3 text-blue-400"></i> EJECT: INTERNSHIPS OPEN 24-25</span>
+                <span class="flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3 h-3 text-emerald-400"></i> PPSU: MERIT SCHOLARSHIPS</span>
             </div>
         </div>
 
         <!-- Ecosystem -->
-        <section id="ecosystem" class="py-32 border-t border-brand-border bg-black">
+        <section id="ecosystem" class="py-20 md:py-32 border-t border-brand-border bg-black">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="mb-16">
+                <div class="mb-12 md:mb-16">
                     <span class="tag mb-4 inline-block">THE ECOSYSTEM</span>
-                    <h2 class="text-4xl font-bold tracking-tight">Our Active Ventures.</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Our Active Ventures.</h2>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <!-- VENTURE 1: Eject Solutions -->
-                    <div class="product-card rounded-2xl p-8 flex flex-col group overflow-visible">
+                    <div class="product-card rounded-2xl p-6 md:p-8 flex flex-col group overflow-visible">
                         <div class="flex justify-between items-start mb-6">
                             <div class="tag text-blue-400 border-blue-400/20 bg-blue-400/5 uppercase">EdTech</div>
                             <i data-lucide="rocket" class="w-5 h-5 text-brand-secondary"></i>
@@ -350,7 +365,7 @@
                     </div>
 
                     <!-- VENTURE 2: PPSU Admissions -->
-                    <div class="product-card rounded-2xl p-8 flex flex-col group overflow-visible">
+                    <div class="product-card rounded-2xl p-6 md:p-8 flex flex-col group overflow-visible">
                         <div class="flex justify-between items-start mb-6">
                             <div class="tag text-emerald-400 border-emerald-400/20 bg-emerald-400/5 uppercase">Admissions</div>
                             <a href="https://ppsuadmissions.vercel.app/" target="_blank"><i data-lucide="external-link" class="w-5 h-5"></i></a>
@@ -375,7 +390,7 @@
                     </div>
 
                     <!-- VENTURE 3: Crossea Abroad -->
-                    <div class="product-card rounded-2xl p-8 flex flex-col group overflow-visible">
+                    <div class="product-card rounded-2xl p-6 md:p-8 flex flex-col group overflow-visible">
                         <div class="flex justify-between items-start mb-6">
                             <div class="tag text-purple-400 border-purple-400/20 bg-purple-400/5 uppercase">Global</div>
                             <i data-lucide="globe" class="w-5 h-5 text-brand-secondary"></i>
@@ -403,11 +418,11 @@
         </section>
 
         <!-- Teaser for Foundry -->
-        <section class="py-32 border-t border-brand-border bg-black overflow-hidden relative">
-            <div class="max-w-7xl mx-auto px-6 mb-16 relative z-10 flex justify-between items-end">
+        <section class="py-20 md:py-32 border-t border-brand-border bg-black overflow-hidden relative">
+            <div class="max-w-7xl mx-auto px-6 mb-12 md:mb-16 relative z-10 flex justify-between items-end">
                 <div>
                     <span class="tag mb-4 inline-block">DIGITAL WORKFORCE</span>
-                    <h2 class="text-4xl font-bold tracking-tight text-gradient">Meet The AI Employees.</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gradient">Meet The AI Employees.</h2>
                 </div>
                 <button onclick="switchView('foundry')" class="hidden md:flex items-center gap-2 text-brand-accent hover:text-white transition-colors text-sm font-bold">
                     FULL ROSTER & ROADMAP <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -415,35 +430,30 @@
             </div>
             <div class="flex w-max animate-scroll-reverse hover:[animation-play-state:paused] gap-6 px-6 relative z-10">
                 <!-- Short Cards -->
-                <div class="w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
+                <div class="w-72 md:w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
                     <div class="flex justify-between items-start mb-6"><div class="w-10 h-10 rounded-lg bg-brand-border/50 flex items-center justify-center text-white"><i data-lucide="hand-coins" class="w-5 h-5"></i></div><div class="w-1.5 h-1.5 rounded-full bg-brand-accent"></div></div>
                     <h4 class="text-lg font-bold text-white mb-1">The Negotiator</h4>
                     <div class="text-[10px] font-mono text-brand-secondary">AGENT_PROC_01</div>
                 </div>
-                <div class="w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
+                <div class="w-72 md:w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
                     <div class="flex justify-between items-start mb-6"><div class="w-10 h-10 rounded-lg bg-brand-border/50 flex items-center justify-center text-white"><i data-lucide="zap" class="w-5 h-5"></i></div><div class="w-1.5 h-1.5 rounded-full bg-brand-accent"></div></div>
                     <h4 class="text-lg font-bold text-white mb-1">Trend Hunter</h4>
                     <div class="text-[10px] font-mono text-brand-secondary">AGENT_MKT_02</div>
                 </div>
-                 <div class="w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
+                 <div class="w-72 md:w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
                     <div class="flex justify-between items-start mb-6"><div class="w-10 h-10 rounded-lg bg-brand-border/50 flex items-center justify-center text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div><div class="w-1.5 h-1.5 rounded-full bg-brand-accent"></div></div>
                     <h4 class="text-lg font-bold text-white mb-1">Support Sentinel</h4>
                     <div class="text-[10px] font-mono text-brand-secondary">AGENT_SUP_03</div>
                 </div>
-                <!-- Repeat -->
-                 <div class="w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
+                 <!-- Repeat for seamless loop -->
+                 <div class="w-72 md:w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
                     <div class="flex justify-between items-start mb-6"><div class="w-10 h-10 rounded-lg bg-brand-border/50 flex items-center justify-center text-white"><i data-lucide="hand-coins" class="w-5 h-5"></i></div><div class="w-1.5 h-1.5 rounded-full bg-brand-accent"></div></div>
                     <h4 class="text-lg font-bold text-white mb-1">The Negotiator</h4>
                     <div class="text-[10px] font-mono text-brand-secondary">AGENT_PROC_01</div>
                 </div>
-                <div class="w-80 p-6 product-card rounded-xl opacity-80 hover:opacity-100">
-                    <div class="flex justify-between items-start mb-6"><div class="w-10 h-10 rounded-lg bg-brand-border/50 flex items-center justify-center text-white"><i data-lucide="zap" class="w-5 h-5"></i></div><div class="w-1.5 h-1.5 rounded-full bg-brand-accent"></div></div>
-                    <h4 class="text-lg font-bold text-white mb-1">Trend Hunter</h4>
-                    <div class="text-[10px] font-mono text-brand-secondary">AGENT_MKT_02</div>
-                </div>
             </div>
             <div class="text-center mt-10 md:hidden">
-                <button onclick="switchView('foundry')" class="px-6 py-3 border border-brand-border rounded-full text-xs font-bold text-white">VIEW ALL AGENTS</button>
+                <button onclick="switchView('foundry')" class="px-8 py-3 border border-brand-border rounded-full text-xs font-bold text-white">VIEW ALL AGENTS</button>
             </div>
         </section>
     </div>
@@ -453,24 +463,24 @@
         <div class="max-w-7xl mx-auto px-6">
             
             <!-- Header -->
-            <div class="mb-16 text-center lg:text-left">
+            <div class="mb-12 md:mb-16 text-center lg:text-left">
                 <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 bg-brand-surface border border-brand-border rounded-full">
                     <span class="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></span>
                     <span class="text-[10px] font-mono text-brand-secondary uppercase tracking-wider">Teetotaler Foundry</span>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">The Digital Workforce.</h1>
-                <p class="text-brand-secondary text-lg max-w-2xl">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">The Digital Workforce.</h1>
+                <p class="text-brand-secondary text-base md:text-lg max-w-2xl mx-auto lg:mx-0">
                     Our internal skunkworks division. These AI agents run autonomously to power our ventures, minimize overhead, and maximize scale.
                 </p>
             </div>
 
             <!-- Active Agents Grid -->
             <div class="mb-24">
-                <h3 class="text-xl font-bold mb-8 flex items-center gap-2">
+                <h3 class="text-xl font-bold mb-8 flex items-center gap-2 justify-center lg:justify-start">
                     <i data-lucide="cpu" class="w-5 h-5 text-brand-accent"></i> Deployed Agents
                 </h3>
                 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Agent Card 1 -->
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 hover:border-brand-accent/50 transition-colors">
                         <div class="flex justify-between items-start mb-6">
@@ -543,18 +553,18 @@
             </div>
 
             <!-- Upcoming Pipeline -->
-            <div class="relative bg-black border border-brand-border rounded-3xl p-8 md:p-12 overflow-hidden tech-grid">
+            <div class="relative bg-black border border-brand-border rounded-3xl p-6 md:p-12 overflow-hidden tech-grid">
                 <div class="absolute top-0 right-0 p-4">
                     <span class="tag bg-white text-black border-none font-bold">R&D PIPELINE</span>
                 </div>
                 
-                <h3 class="text-3xl font-bold mb-10">Upcoming Projects</h3>
+                <h3 class="text-2xl md:text-3xl font-bold mb-10 pt-4 md:pt-0">Upcoming Projects</h3>
                 
                 <div class="space-y-10 max-w-3xl">
                     <!-- Project 1 -->
                     <div class="group">
                         <div class="flex justify-between items-end mb-2">
-                            <h4 class="text-xl font-semibold">Project 'Cortex'</h4>
+                            <h4 class="text-lg md:text-xl font-semibold">Project 'Cortex'</h4>
                             <span class="text-xs font-mono text-brand-accent">85% COMPLETE</span>
                         </div>
                         <div class="w-full h-1 bg-brand-border rounded-full overflow-hidden mb-4">
@@ -568,7 +578,7 @@
                     <!-- Project 2 -->
                     <div class="group">
                         <div class="flex justify-between items-end mb-2">
-                            <h4 class="text-xl font-semibold">Project 'Silo'</h4>
+                            <h4 class="text-lg md:text-xl font-semibold">Project 'Silo'</h4>
                             <span class="text-xs font-mono text-yellow-400">40% COMPLETE</span>
                         </div>
                         <div class="w-full h-1 bg-brand-border rounded-full overflow-hidden mb-4">
@@ -579,11 +589,11 @@
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-brand-border flex flex-col md:flex-row gap-6 items-center justify-between">
-                    <div class="text-sm text-brand-secondary">
+                    <div class="text-sm text-brand-secondary text-center md:text-left">
                         <span class="block text-white font-bold mb-1">Want access to early prototypes?</span>
                         We select 5 beta testers every month.
                     </div>
-                    <button class="px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-xs">
+                    <button class="px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-xs w-full md:w-auto">
                         APPLY FOR ACCESS
                     </button>
                 </div>
@@ -601,8 +611,8 @@
                     <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse-slow"></span>
                     <span class="text-[10px] font-mono text-brand-secondary uppercase tracking-wider">Incoming Signal...</span>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">The Frequency.</h1>
-                <p class="text-brand-secondary text-lg max-w-2xl">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">The Frequency.</h1>
+                <p class="text-brand-secondary text-base md:text-lg max-w-2xl mx-auto lg:mx-0">
                     Field notes from the edge of Venture Building, Generative AI, and Autonomous Systems.
                 </p>
             </div>
@@ -610,7 +620,7 @@
             <!-- Featured Post -->
             <div class="relative group cursor-pointer mb-24" onclick="switchView('article-agency')">
                 <div class="absolute -inset-1 bg-gradient-to-r from-brand-accent to-blue-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
-                <div class="relative bg-brand-surface border border-brand-border rounded-xl p-8 md:p-12 overflow-hidden">
+                <div class="relative bg-brand-surface border border-brand-border rounded-xl p-6 md:p-12 overflow-hidden">
                     <div class="flex flex-col md:flex-row gap-8 items-start md:items-center">
                         <div class="flex-1">
                             <div class="flex items-center gap-3 mb-4">
@@ -618,7 +628,7 @@
                                 <span class="text-xs font-mono text-brand-secondary">APRIL 24, 2024</span>
                             </div>
                             <h2 class="text-3xl md:text-5xl font-bold mb-6 leading-tight group-hover:text-brand-accent transition-colors">The Agency Model is Dead. <br>Long Live the Venture Studio.</h2>
-                            <p class="text-brand-secondary text-lg mb-8 leading-relaxed">
+                            <p class="text-brand-secondary text-base md:text-lg mb-8 leading-relaxed">
                                 Why selling hours for dollars is a losing game in the age of AI. We break down the mathematics of equity vs. fees and why we pivoted our entire infrastructure to build assets, not just campaigns.
                             </p>
                             <div class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-brand-accent">
@@ -645,7 +655,7 @@
             </div>
 
             <!-- Article Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
                 <!-- Article 1 -->
                 <div class="group cursor-pointer">
                     <div class="aspect-video bg-brand-surface border border-brand-border rounded-xl mb-6 overflow-hidden relative">
@@ -696,9 +706,9 @@
             <div class="bg-black border-y border-brand-border py-16 text-center">
                  <h3 class="text-2xl font-bold mb-4">Don't Miss a Transmission.</h3>
                  <p class="text-brand-secondary mb-8">Join 4,000+ founders receiving our raw build logs.</p>
-                 <div class="max-w-md mx-auto relative">
+                 <div class="max-w-md mx-auto relative px-4">
                      <input type="email" placeholder="ENTER_EMAIL_ADDRESS..." class="w-full bg-brand-surface border border-brand-border rounded-full px-6 py-4 text-sm focus:outline-none focus:border-brand-accent transition-colors font-mono">
-                     <button class="absolute right-2 top-2 px-6 py-2 bg-white text-black text-xs font-bold rounded-full hover:scale-105 transition-transform">SUBSCRIBE</button>
+                     <button class="absolute right-6 top-2 bottom-2 px-6 bg-white text-black text-xs font-bold rounded-full hover:scale-105 transition-transform">SUBSCRIBE</button>
                  </div>
             </div>
 
@@ -718,15 +728,15 @@
                     <span class="tag text-brand-accent border-brand-accent/20">MUST_READ</span>
                     <span class="text-xs font-mono text-brand-secondary">APRIL 24, 2024 • 6 MIN READ</span>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                <h1 class="text-3xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
                     The Agency Model is Dead.<br>Long Live the Venture Studio.
                 </h1>
-                <p class="text-xl text-brand-secondary leading-relaxed max-w-2xl">
+                <p class="text-lg md:text-xl text-brand-secondary leading-relaxed max-w-2xl">
                     Why selling hours for dollars is a losing game in the age of AI. Breaking down the mathematics of equity vs. fees.
                 </p>
             </div>
 
-            <article class="prose prose-invert max-w-none">
+            <article class="prose prose-invert max-w-none prose-p:text-base md:prose-p:text-lg">
                 <p>
                     For decades, the digital economy ran on a simple exchange: Money for Time. Clients paid agencies to rent human brains by the hour. Design agencies, dev shops, marketing firms—they all operated on the same "headcount" logic.
                 </p>
@@ -765,21 +775,21 @@
                         <div>
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
-                                <h4 class="text-white font-bold">Phase 1: The Hybrid Era (Current)</h4>
+                                <h4 class="text-white font-bold text-sm md:text-base">Phase 1: The Hybrid Era (Current)</h4>
                             </div>
                             <p class="text-sm text-brand-secondary pl-4 border-l border-brand-border ml-1">Human strategy + AI execution. We use agents like "The Negotiator" and "Trend Hunter" to augment our core team.</p>
                         </div>
                         <div>
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
-                                <h4 class="text-white font-bold">Phase 2: Project Cortex (Q3 2025)</h4>
+                                <h4 class="text-white font-bold text-sm md:text-base">Phase 2: Project Cortex (Q3 2025)</h4>
                             </div>
                             <p class="text-sm text-brand-secondary pl-4 border-l border-brand-border ml-1">Deploying a centralized "Brain" across all ventures. If Eject Solutions learns a new sales tactic, PPSU and Crossea automatically inherit that knowledge via Cortex.</p>
                         </div>
                         <div>
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                                <h4 class="text-white font-bold">Phase 3: The Zero-Touch Firm (2026)</h4>
+                                <h4 class="text-white font-bold text-sm md:text-base">Phase 3: The Zero-Touch Firm (2026)</h4>
                             </div>
                             <p class="text-sm text-brand-secondary pl-4 border-l border-brand-border ml-1">Fully autonomous operational stacks. Humans focus solely on "The Mission" and creative direction. Operations, support, and sales are 100% agent-driven.</p>
                         </div>
@@ -805,16 +815,16 @@
     </div>
 
     <!-- Contact Form (Shared across views) -->
-    <section id="contact" class="py-32 border-t border-brand-border bg-black relative">
+    <section id="contact" class="py-20 md:py-32 border-t border-brand-border bg-black relative">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="mb-16">
+            <div class="mb-12 md:mb-16">
                 <span class="tag mb-4 inline-block">CONTACT_NEXUS</span>
-                <h2 class="text-5xl font-bold tracking-tight">Deploy Your Strategy.</h2>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Deploy Your Strategy.</h2>
                 <p class="text-brand-secondary mt-4">Whether you need Admissions, Internships, or AI Automation—we build the engine.</p>
             </div>
 
             <form class="space-y-12">
-                <div class="grid md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                     <div class="space-y-2">
                         <label>Identity</label>
                         <input type="text" placeholder="Your Name / Organization" class="form-input">
@@ -853,14 +863,14 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" class="px-12 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-all shadow-2xl shadow-white/10">
+                    <button type="submit" class="w-full md:w-auto px-12 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-all shadow-2xl shadow-white/10">
                         INITIATE PARTNERSHIP
                     </button>
                 </div>
             </form>
 
             <!-- Community Grid (New Addition) -->
-            <div class="grid md:grid-cols-3 gap-6 mt-24 pt-12 border-t border-brand-border">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 pt-12 border-t border-brand-border">
                 <!-- Instagram -->
                 <a href="#" class="group block p-6 bg-brand-surface border border-brand-border rounded-xl hover:border-pink-500/50 transition-colors">
                     <div class="flex items-center justify-between mb-4">
@@ -945,7 +955,8 @@
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             // Special case for Article - keep blog nav active
             if(viewName === 'article-agency') {
-                document.getElementById('nav-blog').classList.add('active');
+                const navBlog = document.getElementById('nav-blog');
+                if(navBlog) navBlog.classList.add('active');
             } else {
                 const navItem = document.getElementById(`nav-${viewName}`);
                 if(navItem) navItem.classList.add('active');
@@ -965,6 +976,21 @@
             } else {
                 const el = document.getElementById(id);
                 if(el) el.scrollIntoView({behavior: 'smooth'});
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const body = document.body;
+            
+            if (menu.classList.contains('opacity-0')) {
+                menu.classList.remove('opacity-0', 'pointer-events-none');
+                menu.classList.add('opacity-100', 'pointer-events-auto');
+                body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                menu.classList.remove('opacity-100', 'pointer-events-auto');
+                menu.classList.add('opacity-0', 'pointer-events-none');
+                body.style.overflow = 'auto'; // Restore scrolling
             }
         }
 
